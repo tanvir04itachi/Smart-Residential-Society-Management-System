@@ -1,0 +1,20 @@
+<svg width="420" height="112" viewBox="0 0 420 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mark" x1="8" y1="8" x2="96" y2="104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8172DD"/>
+      <stop offset="1" stop-color="#5544AF"/>
+    </linearGradient>
+    <linearGradient id="word" x1="124" y1="28" x2="390" y2="89" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5544AF"/>
+      <stop offset="1" stop-color="#14745E"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="104" height="104" rx="30" fill="url(#mark)"/>
+  <path d="M27 52.5L56 29L85 52.5V82.5C85 85.2614 82.7614 87.5 80 87.5H32C29.2386 87.5 27 85.2614 27 82.5V52.5Z" fill="white" fill-opacity="0.98"/>
+  <path d="M22 53L56 24L90 53" stroke="#DCD6FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 87V59H50V87M62 87V59H74V87" fill="#6655C5"/>
+  <path d="M52 87V72H60V87" fill="#84CBB1"/>
+  <circle cx="56" cy="50" r="4" fill="#F3BB70"/>
+  <text x="128" y="72" fill="url(#word)" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" letter-spacing="-2">RSMS</text>
+  <text x="132" y="94" fill="#8A80B2" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="700" letter-spacing="3">RESIDENT HUB</text>
+</svg>
