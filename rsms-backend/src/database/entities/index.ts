@@ -16,3 +16,4 @@ export * from './audit-log.entity';
 export * from './billing-config.entity';
 export * from './otp-token.entity';
 export * from './refresh-token.entity';
+export * from './id-counter.entity';

@@ -9,7 +9,10 @@ export const CreateAnnouncementSchema = z.object({
   targets: z
     .array(
       z.object({
-        blockId: z.string().uuid().optional(),
+        blockId: z
+          .string()
+          .regex(/^BLK-\d{2,}$/, 'Invalid block ID')
+          .optional(),
         floorNumber: z.number().int().optional(),
       }),
     )

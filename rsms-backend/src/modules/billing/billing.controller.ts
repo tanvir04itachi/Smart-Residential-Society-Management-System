@@ -95,7 +95,7 @@ export class BillingController {
   @Post('bills/resident/:residentId')
   @Roles(Role.ACCOUNTANT, Role.MANAGER)
   @ApiOperation({ summary: 'Generate a bill for one resident using their flat billing config' })
-  @ApiParam({ name: 'residentId', example: 'f461022c-164b-49d2-8504-57047a3b9836' })
+  @ApiParam({ name: 'residentId', example: 'RES-01' })
   @ApiBody({ schema: { example: { month: 9, year: 2026 } } })
   @ApiResponse({ status: 201, description: 'Resident bill generated' })
   @ApiResponse({ status: 403, description: 'Forbidden - wrong role' })

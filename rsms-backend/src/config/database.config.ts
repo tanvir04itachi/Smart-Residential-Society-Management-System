@@ -13,6 +13,9 @@ export default registerAs('database', (): TypeOrmModuleOptions => ({
     join(__dirname, '..', 'database', 'entities', '*.entity{.ts,.js}'),
   ],
   migrations: [join(__dirname, '..', 'database', 'migrations', '*{.ts,.js}')],
+  subscribers: [
+    join(__dirname, '..', 'database', 'subscribers', '*.subscriber{.ts,.js}'),
+  ],
   synchronize: process.env.NODE_ENV !== 'production',
   logging: ['error', 'warn'],
 }));

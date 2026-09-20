@@ -41,7 +41,7 @@ export class BillingService {
 
   private async getResidentByUserId(userId: string): Promise<Resident> {
     const resident = await this.residentsRepository.findOne({
-      where: { userId },
+      where: { id: userId },
     });
     if (!resident) {
       throw new NotFoundException('Resident profile not found');
@@ -156,7 +156,7 @@ export class BillingService {
     const saved = await this.billsRepository.save(bill);
 
     await this.notificationsService.create(
-      resident.userId,
+      resident.id,
       'New Bill Generated',
       `A bill of ${totalAmount} has been generated for ${dto.month}/${dto.year}.`,
       'BILL',
@@ -304,7 +304,7 @@ export class BillingService {
     const overdueBills = await this.defaulters();
     for (const bill of overdueBills) {
       await this.notificationsService.create(
-        bill.resident.userId,
+        bill.resident.id,
         'Payment Reminder',
         `Your bill of ${bill.totalAmount} for ${bill.month}/${bill.year} is overdue.`,
         'BILL',

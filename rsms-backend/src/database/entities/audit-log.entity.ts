@@ -8,7 +8,7 @@ export class AuditLog extends BaseEntity {
   @JoinColumn({ name: 'userId' })
   user: User | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   userId: string | null;
 
   @Column()

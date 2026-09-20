@@ -10,7 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { unlink } from 'fs/promises';
 import { join } from 'path';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from '../../database/entities';
 import { AVATAR_UPLOAD_DIR } from './avatar-upload.config';
 import { Role } from '../../common/enums';
@@ -23,11 +23,13 @@ import { MailService } from '../mail/mail.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { generateUserId } from '../../common/utils/user-id.util';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    private dataSource: DataSource,
     private mailService: MailService,
   ) {}
 
@@ -43,27 +45,31 @@ export class UsersService {
   }
 
   async create(dto: CreateUserDto) {
-    const existing = await this.usersRepository.findOne({
-      where: { email: dto.email },
-    });
-    if (existing) {
-      throw new ConflictException('Email already in use');
-    }
-
     const plainPassword = dto.password ?? randomBytes(6).toString('hex');
     const passwordHash = await bcrypt.hash(
       plainPassword,
       APP_CONSTANTS.BCRYPT_COST_FACTOR,
     );
 
-    const user = this.usersRepository.create({
-      fullName: dto.fullName,
-      email: dto.email,
-      role: dto.role,
-      phone: dto.phone ?? null,
-      passwordHash,
+    const saved = await this.dataSource.transaction(async (manager) => {
+      const usersRepository = manager.getRepository(User);
+      const existing = await usersRepository.findOne({
+        where: { email: dto.email },
+      });
+      if (existing) {
+        throw new ConflictException('Email already in use');
+      }
+
+      const user = usersRepository.create({
+        id: await generateUserId(manager, dto.role),
+        fullName: dto.fullName,
+        email: dto.email,
+        role: dto.role,
+        phone: dto.phone ?? null,
+        passwordHash,
+      });
+      return usersRepository.save(user);
     });
-    const saved = await this.usersRepository.save(user);
 
     await this.mailService.sendWelcomeEmail(
       saved.email,

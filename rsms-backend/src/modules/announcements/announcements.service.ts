@@ -50,7 +50,7 @@ export class AnnouncementsService {
 
     const residents = await this.getTargetedResidents(saved, dto.targets);
     await this.notificationsService.createMany(
-      residents.map((r) => r.userId),
+      residents.map((r) => r.id),
       `Announcement: ${saved.title}`,
       saved.body,
       'ANNOUNCEMENT',
@@ -114,7 +114,7 @@ export class AnnouncementsService {
     }
 
     const resident = await this.residentsRepository.findOne({
-      where: { userId: user.id },
+      where: { id: user.id },
       relations: { flat: true },
     });
 

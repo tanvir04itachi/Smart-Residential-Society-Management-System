@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { AppModule } from '../../app.module';
 import { APP_CONSTANTS } from '../../common/constants/app.constants';
 import {
@@ -31,6 +31,7 @@ import {
   User,
   Visitor,
 } from '../entities';
+import { generateUserId } from '../../common/utils/user-id.util';
 
 const DEMO_PASSWORD = 'Passw0rd!123';
 
@@ -46,6 +47,7 @@ async function seed() {
   const blocksRepo: Repository<Block> = app.get(getRepositoryToken(Block));
   const flatsRepo: Repository<Flat> = app.get(getRepositoryToken(Flat));
   const usersRepo: Repository<User> = app.get(getRepositoryToken(User));
+  const dataSource = app.get(DataSource);
   const residentsRepo: Repository<Resident> = app.get(
     getRepositoryToken(Resident),
   );
@@ -149,16 +151,26 @@ async function seed() {
   ): Promise<User> {
     let user = await usersRepo.findOne({ where: { email } });
     if (!user) {
-      user = await usersRepo.save(
-        usersRepo.create({
-          fullName,
-          email,
-          role,
-          phone,
-          passwordHash: await hash(DEMO_PASSWORD),
-        }),
-      );
-      console.log(`Created ${role} user ${email}`);
+      user = await dataSource.transaction(async (manager) => {
+        const transactionUsersRepo = manager.getRepository(User);
+        let transactionUser = await transactionUsersRepo.findOne({
+          where: { email },
+        });
+
+        if (!transactionUser) {
+          transactionUser = transactionUsersRepo.create({
+            id: await generateUserId(manager, role),
+            fullName,
+            email,
+            role,
+            phone,
+            passwordHash: await hash(DEMO_PASSWORD),
+          });
+          console.log(`Created ${role} user ${email}`);
+        }
+
+        return transactionUsersRepo.save(transactionUser);
+      });
     }
     return user;
   }
@@ -237,26 +249,19 @@ async function seed() {
   const residents: Resident[] = [];
   for (let i = 0; i < residentSeeds.length; i++) {
     const seedInfo = residentSeeds[i];
-    let user = await usersRepo.findOne({ where: { email: seedInfo.email } });
-    if (!user) {
-      user = await usersRepo.save(
-        usersRepo.create({
-          fullName: seedInfo.name,
-          email: seedInfo.email,
-          role: Role.RESIDENT,
-          phone: `+88017200000${i + 1}`,
-          passwordHash: await hash(DEMO_PASSWORD),
-        }),
-      );
-      console.log(`Created resident user ${seedInfo.email}`);
-    }
+    const user = await ensureUser(
+      seedInfo.name,
+      seedInfo.email,
+      Role.RESIDENT,
+      `+88017200000${i + 1}`,
+    );
 
-    let resident = await residentsRepo.findOne({ where: { userId: user.id } });
+    let resident = await residentsRepo.findOne({ where: { id: user.id } });
     if (!resident) {
       const flat = flats[i];
       resident = await residentsRepo.save(
         residentsRepo.create({
-          userId: user.id,
+          id: user.id,
           flatId: flat.id,
           type: seedInfo.type,
           emergencyContact: '+8801910000000',

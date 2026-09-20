@@ -71,7 +71,7 @@ Login with email + password.
   "accessToken": "eyJhbGciOiJIUzI1NiIs...",
   "refreshToken": "5b2a6e2e-8c9a-4b6d-9b34-1a2b3c4d5e6f",
   "user": {
-    "id": "d1d9ed75-82e0-4133-a48d-b7fce86725ef",
+    "id": "MGR-01",
     "fullName": "Ayesha Rahman",
     "email": "manager@rsms.com",
     "role": "MANAGER"
@@ -143,7 +143,7 @@ Returns the profile of the currently authenticated user.
 **Response `200`**
 ```json
 {
-  "id": "d1d9ed75-82e0-4133-a48d-b7fce86725ef",
+  "id": "MGR-01",
   "fullName": "Ayesha Rahman",
   "email": "manager@rsms.com",
   "role": "MANAGER",
@@ -211,7 +211,7 @@ Change your own password.
 **Response `200`**: `{ "success": true }`
 
 ### GET /users/:id — `MANAGER`
-**Path param**: `id` (uuid) — example `d1d9ed75-82e0-4133-a48d-b7fce86725ef`
+**Path param**: `id` (role-based user ID) — example `RES-01`
 
 ### PATCH /users/:id — `MANAGER`
 **Body**
@@ -334,7 +334,7 @@ Assigns a resident to the flat (sets `isOccupied=true`, resident's `flatId`/`mov
 **Body**
 | Field | Type | Required | Example |
 |---|---|---|---|
-| residentId | string (uuid) | yes | `f461022c-164b-49d2-8504-57047a3b9836` |
+| residentId | role-based resident ID | yes | `RES-01` |
 
 ### PATCH /flats/:id/vacate
 Marks the flat vacant and clears `flatId`/sets `moveOutDate` on any resident currently there. No body.
@@ -393,7 +393,7 @@ Summary counts grouped by status, category and assigned staff.
 **Body**
 | Field | Type | Required | Example |
 |---|---|---|---|
-| assignedToId | string (uuid, must be a `MAINTENANCE` user) | yes | `6a06ec1c-1d2c-4d9b-889d-cff339093219` |
+| assignedToId | role-based user ID (must be a `MAINTENANCE` user) | yes | `MNT-01` |
 
 ### PATCH /complaints/:id/status — `MAINTENANCE`, `MANAGER`
 **Body**

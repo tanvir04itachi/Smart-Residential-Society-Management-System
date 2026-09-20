@@ -125,6 +125,7 @@
   },
   "users": {
     "title": "Users",
+    "userId": "User ID",
     "newUser": "New user",
     "fullName": "Full name",
     "createUser": "Create user",

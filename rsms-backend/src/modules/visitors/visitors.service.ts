@@ -26,7 +26,7 @@ export class VisitorsService {
 
   private async getResidentByUserId(userId: string): Promise<Resident> {
     const resident = await this.residentsRepository.findOne({
-      where: { userId },
+      where: { id: userId },
     });
     if (!resident) {
       throw new NotFoundException('Resident profile not found');
@@ -88,7 +88,7 @@ export class VisitorsService {
       });
       if (resident) {
         await this.notificationsService.create(
-          resident.userId,
+          resident.id,
           'Visitor Arrived',
           `Your visitor ${visitor.visitorName} has arrived at the gate.`,
           'VISITOR',
@@ -127,7 +127,7 @@ export class VisitorsService {
       relations: { user: true },
     });
     await this.notificationsService.createMany(
-      residents.map((r) => r.userId),
+      residents.map((r) => r.id),
       'Visitor Waiting at Gate',
       `A visitor "${dto.visitorName}" is waiting at the gate. Please approve or deny.`,
       'VISITOR',

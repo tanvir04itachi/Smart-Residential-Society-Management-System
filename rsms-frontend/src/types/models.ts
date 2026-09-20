@@ -54,7 +54,6 @@ export interface FamilyMember {
 
 export interface Resident {
   id: string;
-  userId: string;
   user?: User;
   flatId: string | null;
   flat?: Flat | null;

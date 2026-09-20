@@ -4,7 +4,12 @@ import type { User } from '@/types';
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  user: { id: string; fullName: string; email: string; role: string };
+  user: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+  };
 }
 
 export const authService = {

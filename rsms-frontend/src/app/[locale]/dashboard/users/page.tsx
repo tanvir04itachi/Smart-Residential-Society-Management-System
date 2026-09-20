@@ -78,6 +78,7 @@ function UsersPageContent() {
   }
 
   const columns: Column<User>[] = [
+    { header: t('userId'), accessor: (u) => u.id },
     { header: commonT('name'), accessor: (u) => u.fullName },
     { header: commonT('email'), accessor: (u) => u.email },
     { header: commonT('phone'), accessor: (u) => u.phone ?? '-' },

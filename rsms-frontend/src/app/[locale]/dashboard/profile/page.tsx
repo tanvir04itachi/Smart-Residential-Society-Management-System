@@ -149,6 +149,10 @@ export default function ProfilePage() {
             </div>
           </div>
           <p>
+            <span className="text-slate-500">{usersT('userId')}:</span>{' '}
+            {user?.id ?? '-'}
+          </p>
+          <p>
             <span className="text-slate-500">{commonT('email')}:</span>{' '}
             {user?.email}
           </p>

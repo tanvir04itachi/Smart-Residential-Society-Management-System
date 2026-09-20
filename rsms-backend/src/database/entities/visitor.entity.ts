@@ -11,14 +11,14 @@ export class Visitor extends BaseEntity {
   @JoinColumn({ name: 'preRegisteredById' })
   preRegisteredBy: Resident | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   preRegisteredById: string | null;
 
   @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'verifiedByGuardId' })
   verifiedByGuard: User | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   verifiedByGuardId: string | null;
 
   @Column()

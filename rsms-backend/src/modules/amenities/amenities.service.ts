@@ -33,7 +33,7 @@ export class AmenitiesService {
 
   private async getResidentByUserId(userId: string): Promise<Resident> {
     const resident = await this.residentsRepository.findOne({
-      where: { userId },
+      where: { id: userId },
     });
     if (!resident) {
       throw new NotFoundException('Resident profile not found');

@@ -14,6 +14,7 @@ import { APP_CONSTANTS } from '../../common/constants/app.constants';
 import { MailService } from '../mail/mail.service';
 import { CreateResidentDto } from './dto/create-resident.dto';
 import { UpdateResidentDto } from './dto/update-resident.dto';
+import { generateUserId } from '../../common/utils/user-id.util';
 
 @Injectable()
 export class ResidentsService {
@@ -48,6 +49,7 @@ export class ResidentsService {
 
     const resident = await this.dataSource.transaction(async (manager) => {
       const user = manager.create(User, {
+        id: await generateUserId(manager, Role.RESIDENT),
         fullName: dto.fullName,
         email: dto.email,
         phone: dto.phone ?? null,
@@ -57,7 +59,7 @@ export class ResidentsService {
       const savedUser = await manager.save(user);
 
       const residentEntity = manager.create(Resident, {
-        userId: savedUser.id,
+        id: savedUser.id,
         flatId: dto.flatId ?? null,
         type: dto.type,
         emergencyContact: dto.emergencyContact ?? null,
@@ -112,7 +114,7 @@ export class ResidentsService {
   private assertAccess(resident: Resident, requester?: User) {
     if (!requester) return;
     if (requester.role === Role.MANAGER) return;
-    if (requester.role === Role.RESIDENT && resident.userId === requester.id) {
+    if (requester.role === Role.RESIDENT && resident.id === requester.id) {
       return;
     }
     throw new ForbiddenException('Access denied');

@@ -10,7 +10,7 @@ export class Announcement extends BaseEntity {
   @JoinColumn({ name: 'publishedById' })
   publishedBy: User | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   publishedById: string | null;
 
   @Column()

@@ -11,7 +11,7 @@ export class Booking extends BaseEntity {
   @JoinColumn({ name: 'residentId' })
   resident: Resident;
 
-  @Column()
+  @Column({ type: 'varchar', length: 20 })
   residentId: string;
 
   @ManyToOne(() => Amenity, { onDelete: 'CASCADE' })

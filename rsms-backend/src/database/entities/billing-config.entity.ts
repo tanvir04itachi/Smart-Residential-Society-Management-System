@@ -26,6 +26,6 @@ export class BillingConfig extends BaseEntity {
   @JoinColumn({ name: 'updatedById' })
   updatedBy: User | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   updatedById: string | null;
 }

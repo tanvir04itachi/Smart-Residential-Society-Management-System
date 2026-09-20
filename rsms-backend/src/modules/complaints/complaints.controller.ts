@@ -147,7 +147,7 @@ export class ComplaintsController {
   @ApiParam({ name: 'id', example: 'e4690af7-0af7-4918-af13-faf4f5b4a74d' })
   @ApiBody({
     schema: {
-      example: { assignedToId: '6a06ec1c-1d2c-4d9b-889d-cff339093219' },
+      example: { assignedToId: 'MNT-01' },
     },
   })
   @ApiResponse({ status: 200, description: 'Complaint assigned' })

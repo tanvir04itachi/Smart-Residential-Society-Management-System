@@ -1,10 +1,20 @@
-import { Column, Entity, Index, OneToOne } from 'typeorm';
-import { BaseEntity } from './base.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  OneToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Role } from '../../common/enums';
 import { Resident } from './resident.entity';
 
 @Entity('users')
-export class User extends BaseEntity {
+export class User {
+  @PrimaryColumn({ type: 'varchar', length: 20 })
+  id: string;
+
   @Column()
   fullName: string;
 
@@ -35,6 +45,12 @@ export class User extends BaseEntity {
 
   @Column({ type: 'timestamptz', nullable: true })
   lastLoginAt: Date | null;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: Date;
 
   @OneToOne(() => Resident, (resident) => resident.user)
   resident: Resident;

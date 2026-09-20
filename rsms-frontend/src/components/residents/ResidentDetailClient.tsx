@@ -49,7 +49,7 @@ export function ResidentDetailClient({ id }: { id: string }) {
   }, [resident, reset]);
 
   const canEdit =
-    user?.role === Role.MANAGER || user?.id === resident?.userId;
+    user?.role === Role.MANAGER || user?.id === resident?.id;
 
   async function onSubmit(values: UpdateResidentFormValues) {
     try {

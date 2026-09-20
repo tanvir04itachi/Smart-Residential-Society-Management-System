@@ -8,7 +8,7 @@ export class RefreshToken extends BaseEntity {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @Column()
+  @Column({ type: 'varchar', length: 20 })
   userId: string;
 
   @Column()

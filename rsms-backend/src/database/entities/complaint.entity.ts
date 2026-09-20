@@ -16,14 +16,14 @@ export class Complaint extends BaseEntity {
   @JoinColumn({ name: 'residentId' })
   resident: Resident;
 
-  @Column()
+  @Column({ type: 'varchar', length: 20 })
   residentId: string;
 
   @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'assignedToId' })
   assignedTo: User | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   assignedToId: string | null;
 
   @Column({ type: 'enum', enum: ComplaintCategory })

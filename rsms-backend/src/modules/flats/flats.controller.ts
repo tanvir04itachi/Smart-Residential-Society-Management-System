@@ -79,7 +79,7 @@ export class FlatsController {
   @ApiParam({ name: 'id', example: 'cbf26697-85f1-428f-93d3-39a3b54459ca' })
   @ApiBody({
     schema: {
-      example: { residentId: 'f461022c-164b-49d2-8504-57047a3b9836' },
+      example: { residentId: 'RES-01' },
     },
   })
   @ApiResponse({ status: 200, description: 'Resident assigned' })

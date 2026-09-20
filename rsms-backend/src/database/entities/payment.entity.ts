@@ -17,7 +17,7 @@ export class Payment extends BaseEntity {
   @JoinColumn({ name: 'residentId' })
   resident: Resident;
 
-  @Column()
+  @Column({ type: 'varchar', length: 20 })
   residentId: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })

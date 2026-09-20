@@ -140,7 +140,7 @@ export class UsersController {
   @Get(':id')
   @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Get user detail' })
-  @ApiParam({ name: 'id', example: 'd1d9ed75-82e0-4133-a48d-b7fce86725ef' })
+  @ApiParam({ name: 'id', example: 'RES-01' })
   @ApiResponse({ status: 200, description: 'Success' })
   @ApiResponse({ status: 403, description: 'Forbidden - wrong role' })
   findOne(@Param('id') id: string) {
@@ -150,7 +150,7 @@ export class UsersController {
   @Patch(':id')
   @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Update user' })
-  @ApiParam({ name: 'id', example: 'd1d9ed75-82e0-4133-a48d-b7fce86725ef' })
+  @ApiParam({ name: 'id', example: 'RES-01' })
   @ApiBody({
     schema: {
       example: { fullName: 'Nasrin Sultana Rimi', phone: '+8801710000010' },
@@ -168,7 +168,7 @@ export class UsersController {
   @Patch(':id/deactivate')
   @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Deactivate user account' })
-  @ApiParam({ name: 'id', example: 'd1d9ed75-82e0-4133-a48d-b7fce86725ef' })
+  @ApiParam({ name: 'id', example: 'RES-01' })
   @ApiResponse({ status: 200, description: 'User deactivated' })
   @ApiResponse({ status: 403, description: 'Forbidden - wrong role' })
   deactivate(@Param('id') id: string) {
@@ -178,7 +178,7 @@ export class UsersController {
   @Patch(':id/activate')
   @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Re-activate user account' })
-  @ApiParam({ name: 'id', example: 'd1d9ed75-82e0-4133-a48d-b7fce86725ef' })
+  @ApiParam({ name: 'id', example: 'RES-01' })
   @ApiResponse({ status: 200, description: 'User activated' })
   @ApiResponse({ status: 403, description: 'Forbidden - wrong role' })
   activate(@Param('id') id: string) {

@@ -1,25 +1,27 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 import { Flat } from './flat.entity';
 import { ResidentType } from '../../common/enums';
 import { Complaint } from './complaint.entity';
 
 @Entity('residents')
-export class Resident extends BaseEntity {
-  @OneToOne(() => User, (user) => user.resident, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userId' })
-  user: User;
+export class Resident {
+  @PrimaryColumn({ type: 'varchar', length: 20 })
+  id: string;
 
-  @Column({ unique: true })
-  userId: string;
+  @OneToOne(() => User, (user) => user.resident, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'id', referencedColumnName: 'id' })
+  user: User;
 
   @ManyToOne(() => Flat, (flat) => flat.residents, {
     onDelete: 'SET NULL',
@@ -48,6 +50,12 @@ export class Resident extends BaseEntity {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: Date;
 
   @OneToMany(() => Complaint, (complaint) => complaint.resident)
   complaints: Complaint[];

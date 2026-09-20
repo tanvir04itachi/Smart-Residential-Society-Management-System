@@ -6,7 +6,10 @@ export const CreateResidentSchema = z.object({
   email: z.string().email(),
   phone: z.string().optional(),
   password: z.string().min(8).max(72).optional(),
-  flatId: z.string().uuid().optional(),
+  flatId: z
+    .string()
+    .regex(/^FLT-\d{2,}$/, 'Invalid flat ID')
+    .optional(),
   type: z.nativeEnum(ResidentType),
   emergencyContact: z.string().optional(),
   familyMembers: z.array(z.record(z.string(), z.any())).optional(),

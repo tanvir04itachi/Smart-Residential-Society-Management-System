@@ -33,7 +33,7 @@ export class ComplaintsService {
 
   private async getResidentByUserId(userId: string): Promise<Resident> {
     const resident = await this.residentsRepository.findOne({
-      where: { userId },
+      where: { id: userId },
       relations: { user: true },
     });
     if (!resident) {
@@ -141,7 +141,7 @@ export class ComplaintsService {
     const saved = await this.complaintsRepository.save(complaint);
 
     await this.notificationsService.create(
-      complaint.resident.userId,
+      complaint.resident.id,
       'Complaint Assigned',
       `Your complaint "${complaint.title}" has been assigned to maintenance staff.`,
       'COMPLAINT',
@@ -179,7 +179,7 @@ export class ComplaintsService {
     const saved = await this.complaintsRepository.save(complaint);
 
     await this.notificationsService.create(
-      complaint.resident.userId,
+      complaint.resident.id,
       'Complaint Status Updated',
       `Your complaint "${complaint.title}" is now ${dto.status}.`,
       'COMPLAINT',
